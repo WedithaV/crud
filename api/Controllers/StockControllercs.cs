@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/stocks")]
-    [ApiController]
-    public class StockControllercs : ControllerBase
+    [Route("api/stocks")] //Defines the URL route to access this controller
+    [ApiController] //Helps automatically handle things like model validation and routing.
+    public class StockControllers : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public StockControllercs(ApplicationDBContext context)
+        public StockControllers(ApplicationDBContext context)
         {
             _context = context;
             
