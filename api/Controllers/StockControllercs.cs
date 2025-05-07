@@ -13,7 +13,7 @@ namespace api.Controllers
         public StockControllers(ApplicationDBContext context)
         {
             _context = context;
-            
+
         }
 
         [HttpGet]
@@ -27,8 +27,8 @@ namespace api.Controllers
         public IActionResult GetById([FromRoute] int id)
         {
             var stock = _context.Stock.Find(id);
-            
-            if(stock == null)
+
+            if (stock == null)
             {
                 return NotFound();
             }
@@ -43,6 +43,29 @@ namespace api.Controllers
             _context.Stock.Add(stockModel);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id });
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto) 
+        {
+            var stockModel = _context.Stock.FirstOrDefault(x => x.Id == id);
+
+            if(stockModel == null)
+            {
+                return NotFound();
+            }
+
+            stockModel.Purchase = updateDto.Purchase;
+            stockModel.Symbol = updateDto.Symbol;
+            stockModel.LastDiv = updateDto.LastDiv;
+            stockModel.CompanyName = updateDto.CompanyName;
+            stockModel.Industry = updateDto.Industry;
+            stockModel.MarketCap = updateDto.MarketCap;
+
+            _context.SaveChanges();
+
+            return Ok(stockModel.ToStockDto());
+
         }
     }
 }
